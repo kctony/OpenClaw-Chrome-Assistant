@@ -1,3 +1,4 @@
+<img width="1506" height="799" alt="image" src="https://github.com/user-attachments/assets/ef73c3ea-9881-4bef-a5cd-987d3ca2703e" />
 # OpenClaw Chrome Assistant (v0.21)
 
 [English]
