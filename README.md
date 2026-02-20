@@ -1,4 +1,3 @@
-<img width="1506" height="799" alt="image" src="https://github.com/user-attachments/assets/ef73c3ea-9881-4bef-a5cd-987d3ca2703e" />
 # OpenClaw Chrome Assistant (v0.21)
 
 [English]
@@ -6,6 +5,8 @@ A simple and lightweight Chrome extension designed to make communicating with yo
 
 [繁體中文]
 這是一個簡單輕量的 Chrome 擴充功能，旨在讓您在瀏覽網頁時能與 OpenClaw 助理進行無縫溝通。無論是需要摘要網頁、記錄片段，還是隨手提問，龍蝦助理隨時待命。
+
+<img width="800" alt="image" src="https://github.com/user-attachments/assets/ef73c3ea-9881-4bef-a5cd-987d3ca2703e" />
 
 ---
 
