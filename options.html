@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lobster Assistant Settings</title>
+    <style>
+        body { font-family: sans-serif; min-width: 400px; max-width: 800px; margin: 20px auto; padding: 20px; background: #ccc; }
+        label { display: block; margin-top: 10px; font-weight: bold; }
+        input[type="text"], select, textarea { width: 100%; padding: 8px; margin-top: 5px; box-sizing: border-box; }
+        input[type="number"] { width: 20%; padding: 8px; margin-top: 5px; box-sizing: border-box; }
+        .prompt-item { border: 1px solid #ccc; padding: 10px; margin-top: 10px; display: flex; gap: 10px; align-items: start; background: #f9f9f9; }
+        .prompt-inputs { flex-grow: 1; }
+        .prompt-inputs input { margin-bottom: 5px; }
+        .remove-btn { background: #ff4444; color: white; border: none; padding: 5px 10px; cursor: pointer; height: fit-content; margin-top: 5px; }
+        .add-btn { background: #4CAF50; color: white; border: none; padding: 8px 16px; cursor: pointer; margin-top: 10px; }
+        #save { background: #2196F3; color: white; border: none; padding: 10px 20px; cursor: pointer; font-size: 16px; margin-top: 20px; display: block; width: 100%; }
+        h3 { border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-top: 30px; }
+        .status { position: fixed; top: 20px; right: 20px; padding: 10px 20px; background: #4CAF50; color: white; border-radius: 4px; display: none; }
+        .status.error { background: #f44336; }
+    </style>
+</head>
+<body>
+    <h1 id="settingsTitle">Lobster Settings</h1>
+    <div id="statusMessage" class="status"></div>
+
+    <h2 id="generalSettings">General</h2>
+    
+    <label for="gatewayUrl" id="gatewayLabel">Gateway URL:</label>
+    <input type="text" id="gatewayUrl" placeholder="http://localhost:18789">
+    
+    <label for="token" id="tokenLabel">Token:</label>
+    <input type="text" id="token" placeholder="token">
+
+    <label for="sessionKey" id="sessionKeyLabel">Default Session Key:</label>
+    <input type="text" id="sessionKey" placeholder="agent:main:main">
+
+    <div style="display: flex; flex-direction: column; gap: 20px;">
+        <div>
+            <label for="customIcon" id="iconLabel">Custom Icon:</label>
+            <input type="text" id="customIcon" placeholder="🦞">
+        </div>
+        <div>
+            <label for="language" id="languageLabel">Language:</label>
+            <select id="language">
+                <option value="zh-TW">繁體中文</option>
+                <option value="en">English</option>
+            </select>
+        </div>
+        <div>
+             <label for="fadeTime" id="fadeTimeLabel">Fade Time (s):</label>
+             <input type="number" id="fadeTime" value="3" min="1">
+        </div>
+    </div>
+
+    <h2 id="quickOptionsTitle">Quick Options Management</h2>
+    <p id="quickOptionHelp" style="color: #666; font-size: 0.9em;"></p>
+
+    <h3 id="modePage">Page Mode</h3>
+    <div id="pagePromptsList"></div>
+    <button id="addPagePrompt" class="add-btn">+ Add Prompt</button>
+
+    <h3 id="modeSelection">Selection Mode</h3>
+    <div id="selectionPromptsList"></div>
+    <button id="addSelectionPrompt" class="add-btn">+ Add Prompt</button>
+
+    <h3 id="modeImage">Image Mode</h3>
+    <div id="imagePromptsList"></div>
+    <button id="addImagePrompt" class="add-btn">+ Add Prompt</button>
+
+    <button id="save">Save Settings</button>
+
+    <script src="i18n_data.js"></script>
+    <script src="options.js"></script>
+</body>
+</html>
