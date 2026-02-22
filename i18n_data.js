@@ -1,6 +1,6 @@
-window.LOBSTER_I18N = {
+window.OPENCLAW_I18N = {
   "en": {
-    "settingsTitle": "Lobster Settings",
+    "settingsTitle": "OpenClaw Settings",
     "tokenLabel": "OpenClaw Token (Required)",
     "gatewayLabel": "Gateway URL",
     "sessionKeyLabel": "Default Session Key",
@@ -13,7 +13,7 @@ window.LOBSTER_I18N = {
     "modeSelection": "Selection Mode",
     "modeImage": "Image Mode",
     "placeholder": "Type a message... (Enter to send, Shift+Enter for new line)",
-    "defaultWelcome": "Hello! I am your Lobster Assistant. How can I help you? 🦞",
+    "defaultWelcome": "Hello! I am your OpenClaw Assistant. How can I help you? 🦞",
     "fullScreen": "Full Screen",
     "minimize": "Minimize",
     "close": "Close",
@@ -27,7 +27,7 @@ window.LOBSTER_I18N = {
     "menuSummarize": "Summarize Page",
     "menuRecord": "Record Selection",
     "menuExplainImage": "Explain Image",
-    "assistantName": "Lobster Assistant",
+    "assistantName": "OpenClaw Assistant",
     "addPrompt": "Add Prompt",
     "removePrompt": "Remove",
     "promptLabel": "Label",

@@ -19,9 +19,9 @@ const DEFAULT_PROMPTS = {
 
 chrome.runtime.onInstalled.addListener(async () => {
   await updateContextMenu();
-  chrome.storage.local.get(['lobster_custom_icon'], (result) => {
-    if (result.lobster_custom_icon) {
-      updateActionIcon(result.lobster_custom_icon);
+  chrome.storage.local.get(['openclaw_custom_icon'], (result) => {
+    if (result.openclaw_custom_icon) {
+      updateActionIcon(result.openclaw_custom_icon);
     }
   });
 });
@@ -29,8 +29,8 @@ chrome.runtime.onInstalled.addListener(async () => {
 chrome.storage.onChanged.addListener((changes, area) => {
   if (area === 'local') {
     updateContextMenu();
-    if (changes.lobster_custom_icon) {
-      updateActionIcon(changes.lobster_custom_icon.newValue);
+    if (changes.openclaw_custom_icon) {
+      updateActionIcon(changes.openclaw_custom_icon.newValue);
     }
   }
 });
@@ -61,20 +61,20 @@ async function updateActionIcon(emoji) {
 async function updateContextMenu() {
   chrome.contextMenus.removeAll(() => {
     chrome.storage.local.get([
-      'lobster_page_prompts',
-      'lobster_selection_prompts',
-      'lobster_image_prompts',
-      'lobster_custom_icon' // Just in case we want to use it in title, but context menu icon is manifest defined
+      'openclaw_page_prompts',
+      'openclaw_selection_prompts',
+      'openclaw_image_prompts',
+      'openclaw_custom_icon' // Just in case we want to use it in title, but context menu icon is manifest defined
     ], function(result) {
       
-      const pagePrompts = result.lobster_page_prompts || DEFAULT_PROMPTS.page;
-      const selectionPrompts = result.lobster_selection_prompts || DEFAULT_PROMPTS.selection;
-      const imagePrompts = result.lobster_image_prompts || DEFAULT_PROMPTS.image;
+      const pagePrompts = result.openclaw_page_prompts || DEFAULT_PROMPTS.page;
+      const selectionPrompts = result.openclaw_selection_prompts || DEFAULT_PROMPTS.selection;
+      const imagePrompts = result.openclaw_image_prompts || DEFAULT_PROMPTS.image;
 
       // Parent Menu
       chrome.contextMenus.create({
-        id: "lobster-root",
-        title: "Lobster Assistant 🦞",
+        id: "openclaw-root",
+        title: "OpenClaw Assistant 🦞",
         contexts: ["page", "selection", "image"]
       }, () => {
         if (chrome.runtime.lastError) {
@@ -85,8 +85,8 @@ async function updateContextMenu() {
         // --- Page Context Submenu ---
         pagePrompts.forEach((item, index) => {
             chrome.contextMenus.create({
-            parentId: "lobster-root",
-            id: `lobster-page-${index}`,
+            parentId: "openclaw-root",
+            id: `openclaw-page-${index}`,
             title: item.label, // Remove emoji prefix to keep it clean or add if desired
             contexts: ["page"]
             });
@@ -95,8 +95,8 @@ async function updateContextMenu() {
         // --- Selection Context Submenu ---
         selectionPrompts.forEach((item, index) => {
             chrome.contextMenus.create({
-            parentId: "lobster-root",
-            id: `lobster-selection-${index}`,
+            parentId: "openclaw-root",
+            id: `openclaw-selection-${index}`,
             title: item.label,
             contexts: ["selection"]
             });
@@ -105,8 +105,8 @@ async function updateContextMenu() {
         // --- Image Context Submenu ---
         imagePrompts.forEach((item, index) => {
             chrome.contextMenus.create({
-            parentId: "lobster-root",
-            id: `lobster-image-${index}`,
+            parentId: "openclaw-root",
+            id: `openclaw-image-${index}`,
             title: item.label,
             contexts: ["image"]
             });
@@ -120,31 +120,31 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
   const menuId = info.menuItemId;
   
   chrome.storage.local.get([
-    'lobster_page_prompts',
-    'lobster_selection_prompts',
-    'lobster_image_prompts'
+    'openclaw_page_prompts',
+    'openclaw_selection_prompts',
+    'openclaw_image_prompts'
   ], function(result) {
     let promptTemplate = "";
     let contextType = "";
 
-    const pagePrompts = result.lobster_page_prompts || DEFAULT_PROMPTS.page;
-    const selectionPrompts = result.lobster_selection_prompts || DEFAULT_PROMPTS.selection;
-    const imagePrompts = result.lobster_image_prompts || DEFAULT_PROMPTS.image;
+    const pagePrompts = result.openclaw_page_prompts || DEFAULT_PROMPTS.page;
+    const selectionPrompts = result.openclaw_selection_prompts || DEFAULT_PROMPTS.selection;
+    const imagePrompts = result.openclaw_image_prompts || DEFAULT_PROMPTS.image;
 
-    if (menuId.startsWith('lobster-page-')) {
-      const index = parseInt(menuId.replace('lobster-page-', ''));
+    if (menuId.startsWith('openclaw-page-')) {
+      const index = parseInt(menuId.replace('openclaw-page-', ''));
       if (pagePrompts && pagePrompts[index]) {
         promptTemplate = pagePrompts[index].prompt;
         contextType = 'page';
       }
-    } else if (menuId.startsWith('lobster-selection-')) {
-      const index = parseInt(menuId.replace('lobster-selection-', ''));
+    } else if (menuId.startsWith('openclaw-selection-')) {
+      const index = parseInt(menuId.replace('openclaw-selection-', ''));
       if (selectionPrompts && selectionPrompts[index]) {
         promptTemplate = selectionPrompts[index].prompt;
         contextType = 'selection';
       }
-    } else if (menuId.startsWith('lobster-image-')) {
-      const index = parseInt(menuId.replace('lobster-image-', ''));
+    } else if (menuId.startsWith('openclaw-image-')) {
+      const index = parseInt(menuId.replace('openclaw-image-', ''));
       if (imagePrompts && imagePrompts[index]) {
         promptTemplate = imagePrompts[index].prompt;
         contextType = 'image';
@@ -189,10 +189,10 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
 async function handleSendMessage(request, sendResponse) {
   try {
-    const storage = await chrome.storage.local.get(["lobster_token", "lobster_gateway", "lobster_session_key"]);
-    const token = storage.lobster_token;
-    let gateway = storage.lobster_gateway || "http://localhost:18789";
-    const sessionKey = storage.lobster_session_key || "agent:main:main";
+    const storage = await chrome.storage.local.get(["openclaw_token", "openclaw_gateway", "openclaw_session_key"]);
+    const token = storage.openclaw_token;
+    let gateway = storage.openclaw_gateway || "http://localhost:18789";
+    const sessionKey = storage.openclaw_session_key || "agent:main:main";
 
     if (!token) {
       sendResponse({ success: false, error: "Token required (請先設定 Token)" });

@@ -1,4 +1,4 @@
-const LOBSTER_I18N_BG = {
+const OPENCLAW_I18N_BG = {
   "en": {
     "menuSummarize": "Summarize Page",
     "menuRecord": "Record Selection",
@@ -27,18 +27,18 @@ class I18nBg {
     }
     
     // Check storage override
-    const result = await chrome.storage.local.get(['lobster_locale']);
-    if (result.lobster_locale) {
-      this.locale = result.lobster_locale;
+    const result = await chrome.storage.local.get(['openclaw_locale']);
+    if (result.openclaw_locale) {
+      this.locale = result.openclaw_locale;
     }
   }
 
   get(key) {
-    if (LOBSTER_I18N_BG[this.locale] && LOBSTER_I18N_BG[this.locale][key]) {
-      return LOBSTER_I18N_BG[this.locale][key];
+    if (OPENCLAW_I18N_BG[this.locale] && OPENCLAW_I18N_BG[this.locale][key]) {
+      return OPENCLAW_I18N_BG[this.locale][key];
     }
-    if (LOBSTER_I18N_BG['en'] && LOBSTER_I18N_BG['en'][key]) {
-      return LOBSTER_I18N_BG['en'][key];
+    if (OPENCLAW_I18N_BG['en'] && OPENCLAW_I18N_BG['en'][key]) {
+      return OPENCLAW_I18N_BG['en'][key];
     }
     return key;
   }

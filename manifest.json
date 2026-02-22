@@ -1,14 +1,12 @@
 {
   "manifest_version": 3,
   "name": "OpenClaw Chrome Assistant",
-  "version": "0.21",
+  "version": "0.26",
   "description": "OpenClaw Chrome Assistant - Communicate with your agent while browsing. / 全域龍蝦助理 - 逛網頁時快速與助理溝通的小工具。",
   "permissions": [
     "storage",
     "contextMenus",
-    "activeTab",
-    "scripting",
-    "offscreen"
+    "activeTab"
   ],
   "host_permissions": [
     "<all_urls>"

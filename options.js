@@ -32,53 +32,53 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // --- Load Settings ---
     chrome.storage.local.get([
-        'lobster_gateway',
-        'lobster_token',
-        'lobster_session_key',
-        'lobster_custom_icon',
-        'lobster_language',
-        'lobster_fade_time',
-        'lobster_page_prompts',      // New Array format
-        'lobster_selection_prompts', // New Array format
-        'lobster_image_prompts',     // New Array format
+        'openclaw_gateway',
+        'openclaw_token',
+        'openclaw_session_key',
+        'openclaw_custom_icon',
+        'openclaw_language',
+        'openclaw_fade_time',
+        'openclaw_page_prompts',      // New Array format
+        'openclaw_selection_prompts', // New Array format
+        'openclaw_image_prompts',     // New Array format
         // Legacy keys to migrate
-        'lobster_page_prompt',
-        'lobster_selection_prompt',
-        'lobster_image_prompt'
+        'openclaw_page_prompt',
+        'openclaw_selection_prompt',
+        'openclaw_image_prompt'
     ], function(result) {
-        gatewayInput.value = result.lobster_gateway || DEFAULT_GATEWAY;
-        tokenInput.value = result.lobster_token || '';
-        sessionKeyInput.value = result.lobster_session_key || DEFAULT_SESSION;
-        customIconInput.value = result.lobster_custom_icon || DEFAULT_ICON;
-        languageSelect.value = result.lobster_language || 'zh-TW';
-        fadeTimeInput.value = result.lobster_fade_time || DEFAULT_FADE;
+        gatewayInput.value = result.openclaw_gateway || DEFAULT_GATEWAY;
+        tokenInput.value = result.openclaw_token || '';
+        sessionKeyInput.value = result.openclaw_session_key || DEFAULT_SESSION;
+        customIconInput.value = result.openclaw_custom_icon || DEFAULT_ICON;
+        languageSelect.value = result.openclaw_language || 'zh-TW';
+        fadeTimeInput.value = result.openclaw_fade_time || DEFAULT_FADE;
 
         // Apply translations to static UI
         applyTranslations(languageSelect.value);
 
         // --- Migration Logic & Loading Prompts ---
-        let pagePrompts = result.lobster_page_prompts;
+        let pagePrompts = result.openclaw_page_prompts;
         if (!pagePrompts) {
-            if (result.lobster_page_prompt) {
-                pagePrompts = [{ label: 'Custom', prompt: result.lobster_page_prompt }];
+            if (result.openclaw_page_prompt) {
+                pagePrompts = [{ label: 'Custom', prompt: result.openclaw_page_prompt }];
             } else {
                 pagePrompts = DEFAULT_PAGE_PROMPTS;
             }
         }
 
-        let selectionPrompts = result.lobster_selection_prompts;
+        let selectionPrompts = result.openclaw_selection_prompts;
         if (!selectionPrompts) {
-            if (result.lobster_selection_prompt) {
-                selectionPrompts = [{ label: 'Custom', prompt: result.lobster_selection_prompt }];
+            if (result.openclaw_selection_prompt) {
+                selectionPrompts = [{ label: 'Custom', prompt: result.openclaw_selection_prompt }];
             } else {
                 selectionPrompts = DEFAULT_SELECTION_PROMPTS;
             }
         }
 
-        let imagePrompts = result.lobster_image_prompts;
+        let imagePrompts = result.openclaw_image_prompts;
         if (!imagePrompts) {
-            if (result.lobster_image_prompt) {
-                imagePrompts = [{ label: 'Custom', prompt: result.lobster_image_prompt }];
+            if (result.openclaw_image_prompt) {
+                imagePrompts = [{ label: 'Custom', prompt: result.openclaw_image_prompt }];
             } else {
                 imagePrompts = DEFAULT_IMAGE_PROMPTS;
             }
@@ -166,15 +166,15 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         const settings = {
-            'lobster_gateway': gatewayUrl,
-            'lobster_token': token,
-            'lobster_session_key': sessionKeyInput.value.trim(),
-            'lobster_custom_icon': customIconInput.value.trim() || '🦞',
-            'lobster_language': languageSelect.value,
-            'lobster_fade_time': parseInt(fadeTimeInput.value) || 3,
-            'lobster_page_prompts': getPromptsFromContainer(pageList),
-            'lobster_selection_prompts': getPromptsFromContainer(selectionList),
-            'lobster_image_prompts': getPromptsFromContainer(imageList)
+            'openclaw_gateway': gatewayUrl,
+            'openclaw_token': token,
+            'openclaw_session_key': sessionKeyInput.value.trim(),
+            'openclaw_custom_icon': customIconInput.value.trim() || '🦞',
+            'openclaw_language': languageSelect.value,
+            'openclaw_fade_time': parseInt(fadeTimeInput.value) || 3,
+            'openclaw_page_prompts': getPromptsFromContainer(pageList),
+            'openclaw_selection_prompts': getPromptsFromContainer(selectionList),
+            'openclaw_image_prompts': getPromptsFromContainer(imageList)
         };
 
         chrome.storage.local.set(settings, function() {
@@ -193,7 +193,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function applyTranslations(lang) {
-        const t = window.LOBSTER_I18N[lang];
+        const t = window.OPENCLAW_I18N[lang];
         if (!t) return;
         
         document.getElementById('settingsTitle').textContent = t.settingsTitle;

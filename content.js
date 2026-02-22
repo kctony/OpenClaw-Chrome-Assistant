@@ -1,34 +1,34 @@
 /**
- * Spec: /srv/workspace/brain/01-Projects/Chrome-Lobster-Assistant/2026-02-20_spec.md
+ * Spec: /srv/workspace/brain/01-Projects/Chrome-OpenClaw-Assistant/2026-02-20_spec.md
  * Description: Content script injected into all pages. Handles the floating UI and interaction.
  */
 
 (async function() {
-  console.log("Lobster Assistant: Content script loaded.");
+  console.log("OpenClaw Assistant: Content script loaded.");
 
   // Prevent multiple injections
-  if (document.getElementById('lobster-assistant-root')) return;
+  if (document.getElementById('openclaw-assistant-root')) return;
 
   // Wait for i18n
-  if (!window.lobsterI18n) {
-    console.error("Lobster Assistant: i18n not loaded.");
+  if (!window.openclawI18n) {
+    console.error("OpenClaw Assistant: i18n not loaded.");
     return;
   }
-  await window.lobsterI18n.init();
-  const t = (key) => window.lobsterI18n.get(key);
+  await window.openclawI18n.init();
+  const t = (key) => window.openclawI18n.get(key);
 
   // --- Constants & Config ---
   const STORAGE_KEYS = {
-    TOKEN: 'lobster_token',
-    GATEWAY: 'lobster_gateway',
-    SESSION_KEY: 'lobster_session_key',
-    FADE_TIME: 'lobster_fade_time',
-    ICON_POS: 'lobster_icon_pos',
-    CUSTOM_ICON: 'lobster_custom_icon',
-    LANGUAGE: 'lobster_language',
-    PAGE_PROMPTS: 'lobster_page_prompts',
-    SELECTION_PROMPTS: 'lobster_selection_prompts',
-    IMAGE_PROMPTS: 'lobster_image_prompts'
+    TOKEN: 'openclaw_token',
+    GATEWAY: 'openclaw_gateway',
+    SESSION_KEY: 'openclaw_session_key',
+    FADE_TIME: 'openclaw_fade_time',
+    ICON_POS: 'openclaw_icon_pos',
+    CUSTOM_ICON: 'openclaw_custom_icon',
+    LANGUAGE: 'openclaw_language',
+    PAGE_PROMPTS: 'openclaw_page_prompts',
+    SELECTION_PROMPTS: 'openclaw_selection_prompts',
+    IMAGE_PROMPTS: 'openclaw_image_prompts'
   };
 
   const DEFAULT_CONFIG = {
@@ -51,44 +51,44 @@
 
   // --- UI Elements ---
   const root = document.createElement('div');
-  root.id = 'lobster-assistant-root';
+  root.id = 'openclaw-assistant-root';
 
   const iconContainer = document.createElement('div');
-  iconContainer.id = 'lobster-icon-container';
+  iconContainer.id = 'openclaw-icon-container';
 
   const icon = document.createElement('div');
-  icon.id = 'lobster-icon';
+  icon.id = 'openclaw-icon';
   icon.textContent = '🦞'; // Default
-  icon.title = 'Lobster Assistant';
+  icon.title = 'OpenClaw Assistant';
   
   // Hover Menu (Quick Actions)
   const hoverMenu = document.createElement('div');
-  hoverMenu.id = 'lobster-hover-menu';
+  hoverMenu.id = 'openclaw-hover-menu';
   hoverMenu.style.display = 'none';
 
   iconContainer.appendChild(hoverMenu);
   iconContainer.appendChild(icon);
 
   const dialog = document.createElement('div');
-  dialog.id = 'lobster-dialog';
+  dialog.id = 'openclaw-dialog';
   dialog.style.display = 'none'; // Initially hidden
 
   // --- Dialog Structure ---
   dialog.innerHTML = `
-    <div class="lobster-header">
+    <div class="openclaw-header">
       <span>${t('assistantName')}</span>
-      <div class="lobster-controls">
-        <button class="lobster-btn-icon" id="lobster-btn-fullscreen" title="${t('fullScreen')}">⛶</button>
-        <button class="lobster-btn-icon" id="lobster-btn-chat" title="OpenClaw Chat">🔗</button>
-        <button class="lobster-btn-icon" id="lobster-btn-close" title="${t('close')}">✕</button>
+      <div class="openclaw-controls">
+        <button class="openclaw-btn-icon" id="openclaw-btn-fullscreen" title="${t('fullScreen')}">⛶</button>
+        <button class="openclaw-btn-icon" id="openclaw-btn-chat" title="OpenClaw Chat">🔗</button>
+        <button class="openclaw-btn-icon" id="openclaw-btn-close" title="${t('close')}">✕</button>
       </div>
     </div>
-    <div class="lobster-messages" id="lobster-messages">
-      <div class="lobster-message lobster-msg-assistant">${t('defaultWelcome')}</div>
+    <div class="openclaw-messages" id="openclaw-messages">
+      <div class="openclaw-message openclaw-msg-assistant">${t('defaultWelcome')}</div>
     </div>
-    <div class="lobster-input-area">
-      <textarea id="lobster-input" placeholder="${t('placeholder')}" rows="1"></textarea>
-      <button id="lobster-send-btn">➤</button>
+    <div class="openclaw-input-area">
+      <textarea id="openclaw-input" placeholder="${t('placeholder')}" rows="1"></textarea>
+      <button id="openclaw-send-btn">➤</button>
     </div>
   `;
 
@@ -141,17 +141,17 @@
 
       // 4. Language
       if (result[STORAGE_KEYS.LANGUAGE]) {
-        window.lobsterI18n.setLocale(result[STORAGE_KEYS.LANGUAGE]);
+        window.openclawI18n.setLocale(result[STORAGE_KEYS.LANGUAGE]);
         updateUIText();
       }
     });
   }
 
   function updateUIText() {
-    dialog.querySelector('.lobster-header span').textContent = t('assistantName');
-    dialog.querySelector('#lobster-btn-close').title = t('close');
-    dialog.querySelector('#lobster-btn-fullscreen').title = t('fullScreen');
-    dialog.querySelector('#lobster-input').placeholder = t('placeholder');
+    dialog.querySelector('.openclaw-header span').textContent = t('assistantName');
+    dialog.querySelector('#openclaw-btn-close').title = t('close');
+    dialog.querySelector('#openclaw-btn-fullscreen').title = t('fullScreen');
+    dialog.querySelector('#openclaw-input').placeholder = t('placeholder');
     // Also update welcome message if it's the only message? Maybe not to disturb history.
   }
 
@@ -313,7 +313,7 @@
     hoverMenu.innerHTML = '';
     
     const modeLabel = document.createElement('div');
-    modeLabel.className = 'lobster-hover-title';
+    modeLabel.className = 'openclaw-hover-title';
     modeLabel.textContent = mode === 'Selection' ? t('modeSelection') : t('modePage');
     hoverMenu.appendChild(modeLabel);
 
@@ -328,7 +328,7 @@
 
         prompts.forEach(p => {
             const btn = document.createElement('div');
-            btn.className = 'lobster-hover-item';
+            btn.className = 'openclaw-hover-item';
             btn.textContent = p.label;
             btn.title = p.prompt;
             btn.addEventListener('click', (e) => {
@@ -348,7 +348,7 @@
     text = text.replace(/{imageUrl}/g, extraData.imageUrl || '');
     
     openDialog();
-    const input = dialog.querySelector('#lobster-input');
+    const input = dialog.querySelector('#openclaw-input');
     input.value = text;
     // Auto-resize input
     input.style.height = 'auto';
@@ -375,7 +375,7 @@
     const dialogHeight = 400; // Approx max height
     
     // Reset classes
-    dialog.classList.remove('left-side', 'right-side');
+    dialog.classList.remove('openclaw-left-side', 'openclaw-right-side');
 
     // Horizontal Position
     // If icon is on the right half, dialog opens to the LEFT of the icon
@@ -389,13 +389,13 @@
         // So `right` style should be `windowWidth - iconRect.left`.
         dialog.style.right = (windowWidth - iconRect.left + 10) + 'px';
         dialog.style.left = 'auto';
-        dialog.classList.add('left-side');
+        dialog.classList.add('openclaw-left-side');
     } else {
         // Icon on left, dialog opens to the RIGHT
         // Dialog's LEFT edge near icon's RIGHT edge.
         dialog.style.left = (iconRect.right + 10) + 'px';
         dialog.style.right = 'auto';
-        dialog.classList.add('right-side');
+        dialog.classList.add('openclaw-right-side');
     }
 
     // Vertical Position
@@ -415,22 +415,22 @@
     
     // Reset classes if fullscreen was active but now we are opening normal
     if (isFullScreen) {
-        dialog.classList.add('lobster-fullscreen');
+        dialog.classList.add('openclaw-fullscreen');
         dialog.style.top = '0';
         dialog.style.left = '0';
         dialog.style.right = '0';
         dialog.style.bottom = '0';
         dialog.style.width = '100vw';
         dialog.style.height = '100vh';
-        dialog.querySelector('#lobster-btn-fullscreen').textContent = '↙️';
+        dialog.querySelector('#openclaw-btn-fullscreen').textContent = '↙️';
     } else {
-        dialog.classList.remove('lobster-fullscreen');
+        dialog.classList.remove('openclaw-fullscreen');
         dialog.style.width = ''; 
         dialog.style.height = '';
-        dialog.querySelector('#lobster-btn-fullscreen').textContent = '⛶';
+        dialog.querySelector('#openclaw-btn-fullscreen').textContent = '⛶';
     }
 
-    const input = dialog.querySelector('#lobster-input');
+    const input = dialog.querySelector('#openclaw-input');
     input.focus();
     
     // Start fresh
@@ -448,7 +448,7 @@
   // 2. Timer end -> fade to 0.1 opacity, pointer-events: none.
   // 3. Mouse enters dialog (via icon trigger usually) OR input focus -> restore.
   
-  const input = dialog.querySelector('#lobster-input');
+  const input = dialog.querySelector('#openclaw-input');
   
   function startFadeCountdown() {
     if (fadeTimer) clearTimeout(fadeTimer);
@@ -456,13 +456,13 @@
 
     // Start 3s timer
     fadeTimer = setTimeout(() => {
-        dialog.classList.add('faded');
+        dialog.classList.add('openclaw-faded');
     }, 3000);
   }
 
   function restoreDialog() {
     if (fadeTimer) clearTimeout(fadeTimer);
-    dialog.classList.remove('faded');
+    dialog.classList.remove('openclaw-faded');
   }
 
   input.addEventListener('focus', () => {
@@ -493,32 +493,32 @@
   // --- Fullscreen & Controls ---
   let isFullScreen = false;
   
-  dialog.querySelector('#lobster-btn-close').addEventListener('click', closeDialog);
+  dialog.querySelector('#openclaw-btn-close').addEventListener('click', closeDialog);
   
-  dialog.querySelector('#lobster-btn-fullscreen').addEventListener('click', () => {
+  dialog.querySelector('#openclaw-btn-fullscreen').addEventListener('click', () => {
     isFullScreen = !isFullScreen;
     if (isFullScreen) {
-        dialog.classList.add('lobster-fullscreen');
+        dialog.classList.add('openclaw-fullscreen');
         dialog.style.top = '0';
         dialog.style.left = '0';
         dialog.style.right = '0';
         dialog.style.bottom = '0';
         dialog.style.width = '100vw';
         dialog.style.height = '100vh';
-        dialog.querySelector('#lobster-btn-fullscreen').textContent = '↙️'; // Minimize icon
+        dialog.querySelector('#openclaw-btn-fullscreen').textContent = '↙️'; // Minimize icon
         restoreDialog(); // Ensure not faded
     } else {
-        dialog.classList.remove('lobster-fullscreen');
+        dialog.classList.remove('openclaw-fullscreen');
         dialog.style.width = ''; // Reset to css default
         dialog.style.height = '';
-        dialog.querySelector('#lobster-btn-fullscreen').textContent = '⛶';
+        dialog.querySelector('#openclaw-btn-fullscreen').textContent = '⛶';
         // Reposition needed? It might jump. Let's just close and reopen logic or keep current relative pos.
         // For simplicity, re-run openDialog logic to snap back near icon
         openDialog(); 
     }
   });
 
-  dialog.querySelector('#lobster-btn-chat').addEventListener('click', () => {
+  dialog.querySelector('#openclaw-btn-chat').addEventListener('click', () => {
     chrome.storage.local.get([STORAGE_KEYS.GATEWAY], (result) => {
       let gateway = result[STORAGE_KEYS.GATEWAY] || config.gateway;
       try {
@@ -544,7 +544,7 @@
     }
   });
 
-  dialog.querySelector('#lobster-send-btn').addEventListener('click', sendMessage);
+  dialog.querySelector('#openclaw-send-btn').addEventListener('click', sendMessage);
 
   // --- Markdown Parser (Simple) ---
   function parseMarkdown(text) {
@@ -561,14 +561,14 @@
 
   function appendMessage(text, sender) {
     const msgDiv = document.createElement('div');
-    msgDiv.className = `lobster-message lobster-msg-${sender}`;
+    msgDiv.className = `openclaw-message openclaw-msg-${sender}`;
     if (sender === 'assistant') {
       msgDiv.innerHTML = parseMarkdown(text);
     } else {
       msgDiv.textContent = text;
     }
     
-    const messagesArea = dialog.querySelector('#lobster-messages');
+    const messagesArea = dialog.querySelector('#openclaw-messages');
     messagesArea.appendChild(msgDiv);
     messagesArea.scrollTop = messagesArea.scrollHeight;
     
@@ -617,7 +617,7 @@
         lastContextMenuImage = request.imageUrl;
       }
       
-      const input = dialog.querySelector('#lobster-input');
+      const input = dialog.querySelector('#openclaw-input');
       input.value = request.text;
       input.style.height = 'auto';
       input.style.height = (input.scrollHeight) + 'px';
